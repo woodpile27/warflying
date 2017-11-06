@@ -70,7 +70,7 @@ def save_to_mongo():
     
 
 def sniff_AP():
-    sniff(iface='mon0', prn=parse, filter='wlan[0]==0x80')
+    sniff(iface='mon0', prn=parse, filter='wlan[0]==0x80 or wlan[0]==0x50')
 
     
 def change_channel():
