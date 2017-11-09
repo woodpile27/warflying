@@ -6,9 +6,7 @@ def spliter(file):
         items = f.readlines()
         for data in items:
             data = json.loads(data)
-            essid = data.get('essid')
-            bssid = data.get('bssid')
-            locates = data.get("locates")
+            essid, bssid, locates = data.get('essid'), data.get('bssid'), data.get('locates')
             valid_locates = []
             for locate in locates:
                 if locate[0] != '0':
@@ -16,15 +14,8 @@ def spliter(file):
             if len(valid_locates) == 0:
                 pass
             else:
-                max_locate = valid_locates[0]
-                max_power = int(valid_locates[0][-3:])
-                for info in valid_locates:
-                    if int(info[-3:]) > max_power:
-                        max_locate = info
-                        max_power = int(info[-3:])
-            douhao = max_locate.find(',')
-            lat = float(max_locate[0:douhao])
-            lng = float(max_locate[douhao+1:-4])
+                max_locate = sorted(valid_locates, key=lambda x: x[-2:])[0]
+            lat, lng, _ = [float(i) for i in max_locate.split(',')] 
             final_data = {'lat':lat, 'lng':lng, 'infobox':essid}
             file.write(str(final_data) + '\n')
 
