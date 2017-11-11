@@ -76,7 +76,7 @@ def sniff_AP():
 def change_channel():
     for ch in cycle([1,3,5,7,9,11,13]):
         os.system('sudo iwconfig wlan1mon channel ' + str(ch))
-        time.sleep(0.5)
+        time.sleep(0.2)
 
 if __name__ == '__main__':
     RTD = ImpactDecoder.RadioTapDecoder()
