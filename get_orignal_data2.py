@@ -3,6 +3,8 @@ from impacket import ImpactDecoder
 import pymongo
 import redis
 import time
+import os
+from itertools import cycle
 from gps import *
 import threading
 
@@ -79,12 +81,17 @@ def save_to_mongo(data):
     except Exception, e:
         print 'save to mongodb failed'
         print e
-    
+
+def change_channel():
+    for ch in cycle([1,3,5,7,9,11,13]):
+        os.system('sudo iwconfig wlan1mon channel ' + str(ch))
+        time.sleep(0.2)
 
 if __name__ == '__main__':
     RTD = ImpactDecoder.RadioTapDecoder()
     gpsp = GpsPoller()
     gpsp.start()
     threading.Thread(target=sniff_AP).start()
+    threading.Thread(target=change_channel).start()
     threading.Thread(target=get_from_redis).start()
 
